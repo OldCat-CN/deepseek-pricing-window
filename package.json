@@ -21,7 +21,8 @@
   },
   "type": "module",
   "scripts": {
-    "test": "node test/verify-window.mjs"
+    "test": "node test/verify-window.mjs",
+    "update-holidays": "node scripts/update-holidays.mjs"
   },
   "exports": {
     ".": "./index.js",
@@ -35,6 +36,7 @@
     "cordis.patch.yml",
     "locale/*.json",
     "README.md",
+    "README.en.md",
     "LICENSE",
     "icon.svg"
   ],

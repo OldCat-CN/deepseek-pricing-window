@@ -60,16 +60,18 @@ const plugin = definition.factory((name) => {
 const dictionaries = new Map();
 let component;
 const fakeLocale = {
+  active: 'zh',
   register(ns, locale, dict) {
     dictionaries.set(locale, dict);
     return () => dictionaries.delete(locale);
   },
+  getLocale() {
+    return { active: fakeLocale.active };
+  },
   bind() {
     return (key) => {
-      for (const id of ['zh', 'en']) {
-        const dict = dictionaries.get(id);
-        if (dict && Object.prototype.hasOwnProperty.call(dict, key)) return dict[key];
-      }
+      const dict = dictionaries.get(fakeLocale.active) || dictionaries.get('zh');
+      if (dict && Object.prototype.hasOwnProperty.call(dict, key)) return dict[key];
       return key;
     };
   },
@@ -109,7 +111,7 @@ function render(atMs) {
   return { inner, title: inner.props.title || '', text: collectText(inner) };
 }
 
-const holidayLine = '节假日表：2026-2027 年。';
+const holidayLinePattern = /节假日表：\d{4}-\d{4} 年。/;
 const cases = [
   [Date.UTC(2026, 10, 19, 8, 31), '峰时 · 2倍', '距离转入谷时约 1小时29分', 'Thursday 08:31 UTC (peak)'],
   [Date.UTC(2026, 10, 19, 4, 0), '谷时 · 5折', '距离转入峰时约 2小时', 'Thursday 04:00 UTC boundary'],
@@ -127,16 +129,36 @@ for (const [at, expectedText, expectedTitlePart, label] of cases) {
   if (!title.includes(expectedTitlePart)) {
     throw new Error(label + ': expected title to include "' + expectedTitlePart + '"\n' + title);
   }
-  if (!title.includes(holidayLine)) {
-    throw new Error(label + ': title is missing "' + holidayLine + '"\n' + title);
+  if (!holidayLinePattern.test(title)) {
+    throw new Error(label + ': title is missing the holiday-table line\n' + title);
   }
-  if (inner.props.role !== 'note' || inner.props.tabIndex !== 0) {
-    throw new Error(label + ': badge is missing its accessible role/focus');
+  if (inner.type !== 'a') {
+    throw new Error(label + ': badge is not a link');
   }
-  if (inner.props['aria-label'] !== title) {
-    throw new Error(label + ': aria-label does not match the title');
+  if (inner.props.target !== '_blank' || !String(inner.props.rel).includes('noopener')) {
+    throw new Error(label + ': badge link is missing target/rel');
+  }
+  if (!String(inner.props.href).includes('/zh-cn/quick_start/pricing')) {
+    throw new Error(label + ': Chinese locale should link to the Chinese pricing page');
+  }
+  if (!String(inner.props['aria-label']).includes('官方价目表')) {
+    throw new Error(label + ': aria-label does not mention the pricing page');
   }
   console.log('ok  ', label, '->', text);
 }
+
+fakeLocale.active = 'en';
+const english = render(Date.UTC(2026, 10, 19, 8, 31));
+if (english.text !== 'Peak · 2×') {
+  throw new Error('English badge text is wrong: ' + english.text);
+}
+if (!english.inner.props.href.endsWith('/quick_start/pricing') || english.inner.props.href.includes('/zh-cn/')) {
+  throw new Error('English locale should link to the English pricing page');
+}
+if (!english.inner.props['aria-label'].includes('official DeepSeek pricing page')) {
+  throw new Error('English aria-label does not mention the pricing page');
+}
+console.log('ok   English locale ->', english.text);
+fakeLocale.active = 'zh';
 
 console.log('client smoke test passed');

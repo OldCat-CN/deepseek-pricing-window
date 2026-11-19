@@ -15,7 +15,13 @@ window.__ModuleLoader__.load({
     ];
     const BOUNDARY_HOURS = [1, 4, 6, 10];
 
-    // Days off from the State Council notices for 2026 and 2027.
+    const PRICING_URL_ZH = 'https://api-docs.deepseek.com/zh-cn/quick_start/pricing';
+    const PRICING_URL_EN = 'https://api-docs.deepseek.com/quick_start/pricing';
+
+    // Days off from the State Council notices. This block is maintained by
+    // scripts/update-holidays.mjs, which appends the next year after December 15
+    // of the last covered year.
+    // BEGIN HOLIDAY_RANGES (managed by scripts/update-holidays.mjs)
     const HOLIDAY_RANGES = [
       ['2026-01-01', '2026-01-03'],
       ['2026-02-15', '2026-02-23'],
@@ -32,6 +38,7 @@ window.__ModuleLoader__.load({
       ['2027-09-15', '2027-09-15'],
       ['2027-10-01', '2027-10-07'],
     ];
+    // END HOLIDAY_RANGES
 
     function parseDay(text) {
       const parts = text.split('-').map(Number);
@@ -115,6 +122,7 @@ window.__ModuleLoader__.load({
       holidayTablePrefix: 'Holiday table: ',
       holidayTableSuffix: '.',
       sourceNote: 'Rates follow the official DeepSeek pricing page.',
+      openPricing: 'Click to open the official DeepSeek pricing page.',
       dayUnit: 'd',
       hourUnit: 'h',
       minuteUnit: 'm',
@@ -136,6 +144,7 @@ window.__ModuleLoader__.load({
       holidayTablePrefix: '节假日表：',
       holidayTableSuffix: ' 年。',
       sourceNote: '价格以 DeepSeek 官方价目表为准。',
+      openPricing: '点击打开 DeepSeek 官方价目表。',
       dayUnit: '天',
       hourUnit: '小时',
       minuteUnit: '分',
@@ -176,8 +185,10 @@ window.__ModuleLoader__.load({
           LAST_HOLIDAY_YEAR +
           t.phrase('holidayTableSuffix'),
         t.phrase('sourceNote'),
+        t.phrase('openPricing'),
       );
       const title = lines.join('\n');
+      const ariaLabel = stateLabel + ' · ' + rateLabel + ' — ' + t.phrase('openPricing');
 
       const dotStyle = {
         width: 6,
@@ -203,18 +214,20 @@ window.__ModuleLoader__.load({
         fontWeight: 500,
         whiteSpace: 'nowrap',
         userSelect: 'none',
-        cursor: 'help',
+        cursor: 'pointer',
+        textDecoration: 'none',
         outlineOffset: 2,
       };
       const stateStyle = { color: 'var(--dsw-alias-label-primary)' };
 
       return h(
-        'span',
+        'a',
         {
+          href: t.href(),
+          target: '_blank',
+          rel: 'noopener noreferrer',
           title,
-          role: 'note',
-          tabIndex: 0,
-          'aria-label': title,
+          'aria-label': ariaLabel,
           style: badgeStyle,
         },
         h('span', { style: dotStyle }),
@@ -242,6 +255,8 @@ window.__ModuleLoader__.load({
         const t = {
           phrase: (key) => translate(key),
           subscribe: (listener) => locale.subscribe(listener),
+          href: () =>
+            locale.getLocale().active.startsWith('zh') ? PRICING_URL_ZH : PRICING_URL_EN,
         };
 
         function PricingBadge() {
