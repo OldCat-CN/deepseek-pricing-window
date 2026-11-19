@@ -59,13 +59,6 @@ window.__ModuleLoader__.load({
       }
     }
 
-    const HOLIDAY_YEARS = HOLIDAY_RANGES.flatMap(([start, end]) => [
-      Number(start.slice(0, 4)),
-      Number(end.slice(0, 4)),
-    ]);
-    const FIRST_HOLIDAY_YEAR = Math.min(...HOLIDAY_YEARS);
-    const LAST_HOLIDAY_YEAR = Math.max(...HOLIDAY_YEARS);
-
     function isPeakAt(ms) {
       const date = new Date(ms);
       const weekday = date.getUTCDay();
@@ -119,8 +112,6 @@ window.__ModuleLoader__.load({
         'Peak: Mon-Fri 09:00-12:00 and 14:00-18:00 Beijing time, excluding Chinese public holidays.',
       offPeakWindow:
         'Off-peak: all other hours, including weekends and Chinese public holidays.',
-      holidayTablePrefix: 'Holiday table: ',
-      holidayTableSuffix: '.',
       sourceNote: 'Rates follow the official DeepSeek pricing page.',
       openPricing: 'Click to open the official DeepSeek pricing page.',
       dayUnit: 'd',
@@ -141,8 +132,6 @@ window.__ModuleLoader__.load({
       toPeak: '距离转入峰时约',
       peakWindow: '峰时：北京时间周一至周五 9:00-12:00、14:00-18:00（中国法定节假日除外）。',
       offPeakWindow: '谷时：其余时段，含周末与中国法定节假日。',
-      holidayTablePrefix: '节假日表：',
-      holidayTableSuffix: ' 年。',
       sourceNote: '价格以 DeepSeek 官方价目表为准。',
       openPricing: '点击打开 DeepSeek 官方价目表。',
       dayUnit: '天',
@@ -179,11 +168,6 @@ window.__ModuleLoader__.load({
       lines.push(
         t.phrase('peakWindow'),
         t.phrase('offPeakWindow'),
-        t.phrase('holidayTablePrefix') +
-          FIRST_HOLIDAY_YEAR +
-          '-' +
-          LAST_HOLIDAY_YEAR +
-          t.phrase('holidayTableSuffix'),
         t.phrase('sourceNote'),
         t.phrase('openPricing'),
       );

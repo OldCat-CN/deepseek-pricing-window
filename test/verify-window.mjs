@@ -111,7 +111,6 @@ function render(atMs) {
   return { inner, title: inner.props.title || '', text: collectText(inner) };
 }
 
-const holidayLinePattern = /节假日表：\d{4}-\d{4} 年。/;
 const cases = [
   [Date.UTC(2026, 10, 19, 8, 31), '峰时 · 2倍', '距离转入谷时约 1小时29分', 'Thursday 08:31 UTC (peak)'],
   [Date.UTC(2026, 10, 19, 4, 0), '谷时 · 5折', '距离转入峰时约 2小时', 'Thursday 04:00 UTC boundary'],
@@ -128,9 +127,6 @@ for (const [at, expectedText, expectedTitlePart, label] of cases) {
   }
   if (!title.includes(expectedTitlePart)) {
     throw new Error(label + ': expected title to include "' + expectedTitlePart + '"\n' + title);
-  }
-  if (!holidayLinePattern.test(title)) {
-    throw new Error(label + ': title is missing the holiday-table line\n' + title);
   }
   if (inner.type !== 'a') {
     throw new Error(label + ': badge is not a link');

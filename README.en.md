@@ -7,7 +7,7 @@ English | [简体中文](README.md)
 - 🟠 **Peak · 2×**: peak hours, twice the off-peak rate
 - 🟢 **Off-peak · 50% off**: off-peak hours, half the peak rate
 
-Hover the badge for the next switch countdown, the Beijing-time peak windows, and the holiday-table range. **Clicking the badge opens the official DeepSeek pricing page** in a new tab, in Chinese or English to match the UI language.
+Hover the badge for the next switch countdown and the Beijing-time peak windows. **Clicking the badge opens the official DeepSeek pricing page** in a new tab, in Chinese or English to match the UI language.
 
 ## Rule
 
