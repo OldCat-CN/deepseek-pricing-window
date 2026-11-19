@@ -1,0 +1,3 @@
+- insert:
+    - id: deepseek-pricing-window-badge
+      name: 'deepseek-pricing-window'

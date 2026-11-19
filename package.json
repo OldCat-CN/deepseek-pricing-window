@@ -1,0 +1,51 @@
+{
+  "name": "deepseek-pricing-window",
+  "version": "1.0.0",
+  "description": "DeepSeek API peak/off-peak pricing badge for the DeepSeek Harness session header.",
+  "keywords": [
+    "dsh",
+    "deepseek-harness",
+    "deepseek",
+    "pricing",
+    "plugin"
+  ],
+  "license": "MIT",
+  "author": "OldCat-CN",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/OldCat-CN/deepseek-pricing-window.git"
+  },
+  "homepage": "https://github.com/OldCat-CN/deepseek-pricing-window#readme",
+  "bugs": {
+    "url": "https://github.com/OldCat-CN/deepseek-pricing-window/issues"
+  },
+  "type": "module",
+  "scripts": {
+    "test": "node test/verify-window.mjs"
+  },
+  "exports": {
+    ".": "./index.js",
+    "./client": "./client.js",
+    "./locale/*.json": "./locale/*.json",
+    "./icon": "./icon.svg"
+  },
+  "files": [
+    "index.js",
+    "client.js",
+    "cordis.patch.yml",
+    "locale/*.json",
+    "README.md",
+    "LICENSE",
+    "icon.svg"
+  ],
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "immediately": true,
+      "inject": ["@deepseek-ai/dsh-client-ui-conversation"]
+    }
+  }
+}
