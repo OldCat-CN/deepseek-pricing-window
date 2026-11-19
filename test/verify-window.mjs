@@ -113,11 +113,11 @@ function render(atMs) {
 
 const cases = [
   [Date.UTC(2026, 10, 19, 8, 31), '峰时 · 2倍', '距离转入谷时约 1小时29分', 'Thursday 08:31 UTC (peak)'],
-  [Date.UTC(2026, 10, 19, 4, 0), '谷时 · 5折', '距离转入峰时约 2小时', 'Thursday 04:00 UTC boundary'],
+  [Date.UTC(2026, 10, 19, 4, 0), '谷时 · 1倍', '距离转入峰时约 2小时', 'Thursday 04:00 UTC boundary'],
   [Date.UTC(2026, 10, 19, 1, 0), '峰时 · 2倍', '距离转入谷时约 3小时', 'Thursday 01:00 UTC peak start'],
-  [Date.UTC(2026, 10, 21, 2, 0), '谷时 · 5折', '距离转入峰时约 1天23小时', 'Saturday'],
-  [Date.UTC(2026, 9, 1, 2, 0), '谷时 · 5折', '距离转入峰时约 6天23小时', 'National Day holiday'],
-  [Date.UTC(2027, 0, 1, 2, 0), '谷时 · 5折', '距离转入峰时约 2天23小时', 'New Year holiday 2027'],
+  [Date.UTC(2026, 10, 21, 2, 0), '谷时 · 1倍', '距离转入峰时约 1天23小时', 'Saturday'],
+  [Date.UTC(2026, 9, 1, 2, 0), '谷时 · 1倍', '距离转入峰时约 6天23小时', 'National Day holiday'],
+  [Date.UTC(2027, 0, 1, 2, 0), '谷时 · 1倍', '距离转入峰时约 2天23小时', 'New Year holiday 2027'],
 ];
 
 for (const [at, expectedText, expectedTitlePart, label] of cases) {
@@ -154,7 +154,11 @@ if (!english.inner.props.href.endsWith('/quick_start/pricing') || english.inner.
 if (!english.inner.props['aria-label'].includes('official DeepSeek pricing page')) {
   throw new Error('English aria-label does not mention the pricing page');
 }
-console.log('ok   English locale ->', english.text);
+const englishOffPeak = render(Date.UTC(2026, 10, 19, 4, 0));
+if (englishOffPeak.text !== 'Off-peak · 1×') {
+  throw new Error('English off-peak badge text is wrong: ' + englishOffPeak.text);
+}
+console.log('ok   English locale ->', english.text, '/', englishOffPeak.text);
 fakeLocale.active = 'zh';
 
 console.log('client smoke test passed');

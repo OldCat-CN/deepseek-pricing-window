@@ -1,11 +1,11 @@
-# DeepSeek pricing window
+<h1 align="center">DSH peak/off-peak badge</h1>
 
-A **DeepSeek Harness (DSH) plugin** that shows whether the DeepSeek API is in peak or off-peak hours in every session header.
+<p align="center"><strong>A DeepSeek Harness (DSH) plugin</strong> that shows whether the DeepSeek API is in peak or off-peak hours in every session header.</p>
 
-English | [简体中文](README.md)
+<p align="center">English | <a href="README.md">简体中文</a></p>
 
 - 🟠 **Peak · 2×**: peak hours, twice the off-peak rate
-- 🟢 **Off-peak · 50% off**: off-peak hours, half the peak rate
+- 🟢 **Off-peak · 1×**: off-peak hours, the base rate (1×)
 
 Hover the badge for the next switch countdown and the Beijing-time peak windows. **Clicking the badge opens the official DeepSeek pricing page** in a new tab, in Chinese or English to match the UI language.
 
@@ -13,10 +13,10 @@ Hover the badge for the next switch countdown and the Beijing-time peak windows.
 
 | Window | Beijing time | UTC | Rate |
 | --- | --- | --- | --- |
-| Peak | Mon–Fri 09:00–12:00, 14:00–18:00 | 01:00–04:00, 06:00–10:00 | base price |
-| Off-peak | every other hour, including weekends and Chinese public holidays | every other hour | 50% of peak |
+| Peak | Mon–Fri 09:00–12:00, 14:00–18:00 | 01:00–04:00, 06:00–10:00 | 2× |
+| Off-peak | every other hour, including weekends and Chinese public holidays | every other hour | 1× (base) |
 
-Weekday public holidays are excluded from peak. Weekend make-up workdays stay off-peak, because DeepSeek defines peak as Monday through Friday only.
+Off-peak is the 1× base; peak is 2×. Weekday public holidays are excluded from peak. Weekend make-up workdays stay off-peak, because DeepSeek defines peak as Monday through Friday only.
 
 ## Install
 
