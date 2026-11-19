@@ -49,7 +49,7 @@ Ask the agent to call `plugin_manager` with `install_bundle` and the Git address
 `.github/workflows/update-holidays.yml` runs every day at 02:17 UTC (10:17 Beijing):
 
 1. Read the last year covered by `HOLIDAY_RANGES` in `client.js`.
-2. If that year's December 15 has not arrived, stop.
+2. If that year's December 15 has not arrived, skip the fetch (the monthly heartbeat may still be written).
 3. If the next year is missing, fetch it from [holiday-cn](https://github.com/NateScarlet/holiday-cn) (GitHub raw first, jsDelivr second).
 4. Validate: `papers` must cite a `gov.cn` State Council notice; all seven holiday groups (New Year, Spring Festival, Qingming, Labour Day, Dragon Boat, Mid-Autumn, National Day) must be present; at least 20 days off; every date in the target year and unique.
 5. On success, update `client.js`, run the smoke test, commit, and push. On failure, the workflow fails and retries the next day until the new year is committed.

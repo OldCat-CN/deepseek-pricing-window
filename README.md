@@ -49,7 +49,7 @@
 仓库里的 `.github/workflows/update-holidays.yml` 每天 02:17 UTC（北京时间 10:17）运行一次：
 
 1. 读取 `client.js` 中 `HOLIDAY_RANGES` 已覆盖的最后一年。
-2. 如果当前时间还没到这一年的 **12 月 15 日**，直接退出。
+2. 如果当前时间还没到这一年的 **12 月 15 日**，跳过抓取（月度心跳仍可能写入）。
 3. 如果下一年还缺失，从 [holiday-cn](https://github.com/NateScarlet/holiday-cn) 抓取该年数据（先试 GitHub raw，再试 jsDelivr）。
 4. 校验：`papers` 必须引用 `gov.cn` 的国务院通知；元旦、春节、清明、劳动、端午、中秋、国庆七组齐全；放假日不少于 20 天；日期必须在该年内且不重复。
 5. 校验通过后更新 `client.js`，运行冒烟测试，提交并推送；如果抓取或校验失败，工作流报错，第二天继续重试，直到下一年数据被写入。
