@@ -9,6 +9,8 @@
 
 Hover the badge for the next switch countdown and the Beijing-time peak windows. **Clicking the badge opens the official DeepSeek pricing page** in a new tab, in Chinese or English to match the UI language.
 
+![Peak and off-peak badges in a session header](docs/preview.en.png)
+
 ## Rule
 
 | Window | Beijing time | UTC | Rate |
@@ -83,6 +85,7 @@ To keep GitHub from disabling the schedule after 60 days without repository acti
 - `icon.svg`: plugin icon.
 - `test/verify-window.mjs`: local smoke test with a React/slot mock; covers six timestamps plus the Chinese and English links.
 - `scripts/update-holidays.mjs`: fetch, validate, write back, and heartbeat.
+- `scripts/render-preview.py`: renders the README mockups (needs Pillow).
 - `.github/workflows/update-holidays.yml`: daily schedule.
 
 Run the tests:

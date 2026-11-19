@@ -9,6 +9,8 @@
 
 悬停可查看距下次切换的倒计时和北京时间高峰时段；**点击徽标会在新标签页打开 DeepSeek 官方价目表**（中文 / English 随界面语言切换）。
 
+![会话标题栏中的峰时与谷时徽标效果示意](docs/preview.zh.png)
+
 ## 计价规则
 
 | 时段 | 北京时间 | UTC | 价格 |
@@ -83,6 +85,7 @@
 - `icon.svg`：插件图标。
 - `test/verify-window.mjs`：本地冒烟测试，模拟 React 与槽位，验证 6 个时间点以及中英文链接。
 - `scripts/update-holidays.mjs`：节假日抓取、校验、写回和心跳。
+- `scripts/render-preview.py`：生成 README 效果示意图（需要 Pillow）。
 - `.github/workflows/update-holidays.yml`：每日定时任务。
 
 运行测试：
