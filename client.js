@@ -257,6 +257,38 @@ window.__ModuleLoader__.load({
             PricingBadge,
           ),
         );
+
+        // A blank Session hides the header utilities, so render the same badge
+        // in the hero frame; the layer disappears once the home phase ends.
+        const heroBadgeStyle = {
+          position: 'absolute',
+          top: 12,
+          right: 16,
+          zIndex: 2,
+          display: 'flex',
+          justifyContent: 'flex-end',
+        };
+
+        function HeroLayer({ hero, children }) {
+          if (!hero) return children;
+          return h(
+            React.Fragment,
+            null,
+            children,
+            h('div', { style: heroBadgeStyle }, h(Badge, { t })),
+          );
+        }
+
+        ctx.slots.inject('conversation.hero.frame', () =>
+          ctx.slots.register(
+            {
+              name: 'conversation.hero.frame',
+              id: 'deepseek-pricing-window-hero',
+              order: 40,
+            },
+            HeroLayer,
+          ),
+        );
       },
     };
   },
