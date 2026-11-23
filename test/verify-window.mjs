@@ -25,7 +25,6 @@ class FakeDate extends Date {
 }
 
 const React = {
-  Fragment: Symbol('Fragment'),
   createElement(type, props, ...children) {
     return { type, props: props || {}, children };
   },
@@ -99,8 +98,8 @@ plugin.apply({
 const headerComponent = components.get('conversation.session.header.utilities:deepseek-pricing-window');
 if (!headerComponent) throw new Error('header badge slot was not registered');
 if (headerComponent.options.id !== 'deepseek-pricing-window') throw new Error('unexpected header slot id');
-const heroComponent = components.get('conversation.hero.frame:deepseek-pricing-window-hero');
-if (!heroComponent) throw new Error('hero badge layer was not registered');
+const heroOptionsComponent = components.get('conversation.hero.options:deepseek-pricing-window');
+if (!heroOptionsComponent) throw new Error('hero options badge was not registered');
 
 function collectText(node) {
   if (typeof node === 'string') return node;
@@ -108,11 +107,15 @@ function collectText(node) {
   return (node.children || []).map(collectText).join('');
 }
 
-function render(atMs) {
+function renderComponent(component, atMs) {
   fakeNow = atMs;
-  const outer = headerComponent.comp();
+  const outer = component.comp();
   const inner = outer.type(outer.props);
   return { inner, title: inner.props.title || '', text: collectText(inner) };
+}
+
+function render(atMs) {
+  return renderComponent(headerComponent, atMs);
 }
 
 const cases = [
@@ -165,30 +168,19 @@ if (englishOffPeak.text !== 'Off-peak · 1×') {
 console.log('ok   English locale ->', english.text, '/', englishOffPeak.text);
 fakeLocale.active = 'zh';
 
-fakeNow = Date.UTC(2026, 10, 19, 8, 31);
-const inactiveHero = heroComponent.comp({ hero: false, children: 'body-content' });
-if (inactiveHero !== 'body-content') {
-  throw new Error('hero layer should pass through the scroll body when not on the home');
+const heroOptions = renderComponent(heroOptionsComponent, Date.UTC(2026, 10, 19, 8, 31));
+if (heroOptions.text !== '峰时 · 2倍') {
+  throw new Error('hero options badge text is wrong: ' + heroOptions.text);
 }
-const activeHero = heroComponent.comp({ hero: true, children: 'body-content' });
-if (!activeHero || activeHero.type !== React.Fragment) {
-  throw new Error('hero layer should wrap the scroll body on the home');
+if (heroOptions.inner.type !== 'a') {
+  throw new Error('hero options badge is not a link');
 }
-if (activeHero.children[0] !== 'body-content') {
-  throw new Error('hero layer should keep the scroll body first');
+if (heroOptions.inner.props.style.marginLeft !== 6) {
+  throw new Error('hero options badge is missing its left gap');
 }
-const heroWrapper = activeHero.children[1];
-if (!heroWrapper || heroWrapper.props.style.position !== 'absolute') {
-  throw new Error('hero badge is not absolutely positioned');
+if (!String(heroOptions.inner.props.href).includes('/zh-cn/quick_start/pricing')) {
+  throw new Error('hero options badge should link to the Chinese pricing page');
 }
-const heroBadgeElement = heroWrapper.children[0];
-const heroBadge = heroBadgeElement.type(heroBadgeElement.props);
-if (collectText(heroBadge) !== '峰时 · 2倍') {
-  throw new Error('hero badge text is wrong: ' + collectText(heroBadge));
-}
-if (!String(heroBadge.props.href).includes('/zh-cn/quick_start/pricing')) {
-  throw new Error('hero badge should link to the Chinese pricing page');
-}
-console.log('ok   hero layer ->', collectText(heroBadge));
+console.log('ok   hero options ->', heroOptions.text);
 
 console.log('client smoke test passed');

@@ -1,6 +1,6 @@
 {
   "meta": {
     "title": "DSH peak/off-peak badge",
-    "description": "Shows whether the DeepSeek API is billing at peak or off-peak rates in every session header and on the blank new-session home. Hover or focus the badge for the next switch, the Beijing-time peak windows, and the 2×/1× difference; click it to open the official pricing page. The rule is computed in UTC with Chinese public holidays built in and refreshed by CI."
+    "description": "Shows whether the DeepSeek API is billing at peak or off-peak rates in every session header and next to the Standard mode control on the blank new-session home. Hover or focus the badge for the next switch, the Beijing-time peak windows, and the 2×/1× difference; click it to open the official pricing page. The rule is computed in UTC with Chinese public holidays built in and refreshed by CI."
   }
 }

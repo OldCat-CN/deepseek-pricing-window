@@ -1,6 +1,6 @@
 <h1 align="center">DSH peak/off-peak badge</h1>
 
-<p align="center"><strong>A DeepSeek Harness (DSH) plugin</strong> that shows whether the DeepSeek API is in peak or off-peak hours in every session header and on the blank new-session home.</p>
+<p align="center"><strong>A DeepSeek Harness (DSH) plugin</strong> that shows whether the DeepSeek API is in peak or off-peak hours in every session header and next to the Standard mode control on the blank new-session home.</p>
 
 <p align="center">English | <a href="README.md">简体中文</a></p>
 
@@ -9,7 +9,7 @@
 
 Hover the badge for the next switch countdown and the Beijing-time peak windows. **Clicking the badge opens the official DeepSeek pricing page** in a new tab, in Chinese or English to match the UI language.
 
-The blank new-session home shows the same badge in its top-right corner; once the conversation starts, it moves to the header's right side.
+On the blank new-session home, the same badge sits to the right of the Standard mode control in the New Session row; once the conversation starts, it moves to the header's right side.
 
 ![Peak and off-peak badges in a session header](docs/preview.en.png)
 
@@ -73,7 +73,7 @@ To keep GitHub from disabling the schedule after 60 days without repository acti
 ## Limitations
 
 - The badge shows the window and rate relation only, not unit prices; prices can change, so check the official page.
-- Web GUI only; the blank new-session home shows the badge in its top-right corner, then it moves to the header's right side.
+- Web GUI only; on the blank new-session home the badge sits next to the Standard mode control, then moves to the header's right side.
 - The native `title` tooltip is unavailable on touch screens; keyboard focus exposes the same details through the accessible name.
 - The updater depends on the community-maintained holiday-cn dataset. It validates the government-notice link and shape, but it is still worth glancing at the bot commits.
 - Installed copies do not auto-update, and Git installs do not appear in npm version listings.

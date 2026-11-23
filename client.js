@@ -141,7 +141,7 @@ window.__ModuleLoader__.load({
       sentenceEnd: '。',
     };
 
-    function Badge({ t }) {
+    function Badge({ t, style }) {
       const [now, setNow] = React.useState(() => Date.now());
       const [, setLocaleRevision] = React.useState(0);
 
@@ -212,7 +212,7 @@ window.__ModuleLoader__.load({
           rel: 'noopener noreferrer',
           title,
           'aria-label': ariaLabel,
-          style: badgeStyle,
+          style: style ? { ...badgeStyle, ...style } : badgeStyle,
         },
         h('span', { style: dotStyle }),
         h('span', { style: stateStyle }, stateLabel),
@@ -247,6 +247,10 @@ window.__ModuleLoader__.load({
           return h(Badge, { t });
         }
 
+        function HeroOptionsBadge() {
+          return h(Badge, { t, style: { marginLeft: 6 } });
+        }
+
         ctx.slots.inject('conversation.session.header.utilities', () =>
           ctx.slots.register(
             {
@@ -258,35 +262,17 @@ window.__ModuleLoader__.load({
           ),
         );
 
-        // A blank Session hides the header utilities, so render the same badge
-        // in the hero frame; the layer disappears once the home phase ends.
-        const heroBadgeStyle = {
-          position: 'absolute',
-          top: 12,
-          right: 16,
-          zIndex: 2,
-          display: 'flex',
-          justifyContent: 'flex-end',
-        };
-
-        function HeroLayer({ hero, children }) {
-          if (!hero) return children;
-          return h(
-            React.Fragment,
-            null,
-            children,
-            h('div', { style: heroBadgeStyle }, h(Badge, { t })),
-          );
-        }
-
-        ctx.slots.inject('conversation.hero.frame', () =>
+        // A blank Session hides the header utilities; the hero's New Session
+        // row still renders options after the workspace and agent-preset
+        // controls, so the badge sits to the right of the preset button.
+        ctx.slots.inject('conversation.hero.options', () =>
           ctx.slots.register(
             {
-              name: 'conversation.hero.frame',
-              id: 'deepseek-pricing-window-hero',
-              order: 40,
+              name: 'conversation.hero.options',
+              id: 'deepseek-pricing-window',
+              order: 10,
             },
-            HeroLayer,
+            HeroOptionsBadge,
           ),
         );
       },
